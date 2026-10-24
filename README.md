@@ -1,5 +1,7 @@
 # NOVARA Commerce
 
+🌐 **Live demo:** https://soft-brigadeiros-23e415.netlify.app
+
 Premium, full-stack, multi-category eCommerce platform for Bangladesh.
 React + Vite frontend (JavaScript/JSX only), Node.js + Express REST API under
 `/api/v1`, Prisma ORM + PostgreSQL. BDT currency, Cash on Delivery as a
