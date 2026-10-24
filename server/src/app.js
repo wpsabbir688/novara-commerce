@@ -22,6 +22,8 @@ import { publicRouter } from './routes/public.js';
 
 export function createApp() {
   const app = express();
+  // Behind a production proxy (e.g. Render) so Secure cookies + IPs work.
+  app.set('trust proxy', 1);
   app.disable('x-powered-by');
   app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }));
   app.use(cors({ origin: env.clientUrl, credentials: true }));

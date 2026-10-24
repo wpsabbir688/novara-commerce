@@ -8,10 +8,17 @@ const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 export const hashToken = (token) => crypto.createHash('sha256').update(token).digest('hex');
 
 export function sessionCookieOptions() {
+  // Cross-site production deploys (e.g. Netlify frontend -> Render API) need
+  // SameSite=None + Secure, otherwise the browser never sends the session
+  // cookie on cross-site fetch. Local dev keeps Lax. Override with
+  // COOKIE_SAMESITE=lax|none when a same-site production deploy is used.
+  const sameSite =
+    process.env.COOKIE_SAMESITE ||
+    (process.env.NODE_ENV === 'production' ? 'none' : 'lax');
   return {
     httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    sameSite,
+    secure: process.env.NODE_ENV === 'production' || sameSite === 'none',
     path: '/',
     maxAge: SESSION_TTL_MS,
   };
@@ -36,7 +43,8 @@ export async function createSession(res, userId, { userAgent, ipAddress }) {
 export async function destroySession(req, res) {
   const token = req.cookies?.[COOKIE_NAME];
   if (token) await prisma.session.deleteMany({ where: { tokenHash: hashToken(token) } });
-  res.clearCookie(COOKIE_NAME, { path: '/' });
+  const { maxAge: _maxAge, ...clearOpts } = sessionCookieOptions();
+  res.clearCookie(COOKIE_NAME, clearOpts);
 }
 
 /**
