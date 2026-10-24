@@ -8,7 +8,7 @@
 - [x] Phase 5 — Admin: dashboard, CRUD, inventory, orders, customers, coupons, settings, RBAC
 - [x] Phase 6 — Payments (disabled adapters) + email boundary
 - [x] Phase 7 — Tests: 32/32 pass (unit + API integration); client production build passes
-- [ ] Phase 8 — Deployment docs (done: Docker Compose, migrations, backup/restore, rollback) + GitHub push
+- [x] Phase 8 — Deployment docs (done: Docker Compose, migrations, backup/restore, rollback) + GitHub push (public repo, main branch, verified via API)
 
 Test results: server `npm test` 32/32 green (2026-10-24). Client `npm run build`
 green. Playwright browser E2E + real-device checks NOT run (no browser
