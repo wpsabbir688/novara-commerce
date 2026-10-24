@@ -1,0 +1,14 @@
+# Netlify deploy config for the NOVARA Commerce storefront (client only).
+# The Express API + PostgreSQL are NOT hosted by Netlify: set VITE_API_URL
+# in the Netlify site settings to a live API base URL (e.g. your API host),
+# otherwise the frontend's /api/v1 calls will 404 and data features won't work.
+[build]
+  base = "client"
+  publish = "dist"
+  command = "npm run build"
+
+# SPA fallback for React Router deep links.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
